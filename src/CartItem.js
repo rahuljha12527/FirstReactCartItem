@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-class CartItem extends React.Component {
+  class CartItem extends React.Component {
    
   constructor(){
     super();
@@ -11,23 +11,60 @@ class CartItem extends React.Component {
        qty:2,
        img:''
      }
+    //  this.testing();
     //  this.increaseQuantity=this.increaseQuantity.bind(this);
    }
+
+  //  testing (){
+  //    const promise=new Promise((resolve,reject)=>{
+  //      setTimeout(()=>{
+  //        resolve('done');
+  //      },5000);
+  //    })
+
+  //    promise.then(()=>{
+  //      this.setState({qty:this.state.qty+10});
+       
+  //      this.setState({qty:this.state.qty+10});
+       
+  //      this.setState({qty:this.state.qty+10});
+
+  //      console.log('state',this.state);
+  //   });
+  //  }
+
+   
 
    increaseQuantity =()=>{
     //  this.state.qty+=1;
       // console.log('this',this.state);
+     
       // this.setState({
-      //   qty:this.state.qty+1
+      //   qty:this.state.qty+5
       // });
-      
+      // //setState form 2-if prevState required use this state
       this.setState((prevS)=>{
         return {
           qty:prevS.qty+1
         }
       });
    }
+   decreaseQuantity =()=>{
+    const { qty }=this.state; 
+
+    if(qty===0){
+      return;
+    }
+
+    this.setState((prevState)=>{
+      return {
+        qty:prevState.qty-1
+      }
+    });
+   }
   render(){
+    console.log('render');
+   
     const {price,title,qty}=this.state;
        
         return (
@@ -52,7 +89,7 @@ class CartItem extends React.Component {
                    alt="decrease" 
                    className="action-icons" 
                    src="https://image.flaticon.com/icons/svg/1665/1665612.svg"
-                   />
+                   onClick={this.decreaseQuantity}/>
                    <img 
                    alt="delete" 
                    className="action-icons" 
