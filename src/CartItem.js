@@ -2,37 +2,7 @@ import React from 'react';
 
 
   class CartItem extends React.Component {
-   
-  constructor(){
-    super();
-    this.state={
-       price:998,
-       title:'Phone',
-       qty:2,
-       img:''
-     }
-    //  this.testing();
-    //  this.increaseQuantity=this.increaseQuantity.bind(this);
-   }
-
-  //  testing (){
-  //    const promise=new Promise((resolve,reject)=>{
-  //      setTimeout(()=>{
-  //        resolve('done');
-  //      },5000);
-  //    })
-
-  //    promise.then(()=>{
-  //      this.setState({qty:this.state.qty+10});
-       
-  //      this.setState({qty:this.state.qty+10});
-       
-  //      this.setState({qty:this.state.qty+10});
-
-  //      console.log('state',this.state);
-  //   });
-  //  }
-
+  
    
 
    increaseQuantity =()=>{
@@ -62,14 +32,18 @@ import React from 'react';
       }
     });
    }
+
+    
   render(){
-    console.log('render');
+    console.log('this.props',this.props);
    
-    const {price,title,qty}=this.state;
+    const {price,title,qty}=this.props.product;
        
         return (
           <div className="cart-item">
-              <div className="left-block">
+
+            {this.props.jsx}
+              <div className="left-block"> 
                 <img  style={styles.image}/>
               </div>
               <div className="right-block">
@@ -83,7 +57,7 @@ import React from 'react';
                    alt="increase" 
                    className="action-icons" 
                    src="https://as1.ftcdn.net/jpg/03/46/94/28/500_F_346942841_2iGSPUeLvwj7JbgUjSewYiIkaJzjGJG9.jpg"
-                   onClick={this.increaseQuantity}
+                   onClick={()=> this.props.onIncreaseQuantity(this.props.product)}
                   />
                    <img 
                    alt="decrease" 
