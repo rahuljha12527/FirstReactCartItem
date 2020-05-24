@@ -2,7 +2,7 @@ import React from 'react';
 import CartItem from './CartItem';
 import Cart from './Cart';
 import NavBar from './Navbar';
-
+import * as firebase from 'firebase'
   
 class  App extends React.Component {
 
@@ -10,39 +10,39 @@ class  App extends React.Component {
     super();
     this.state={
      
-        products:[
-            {
-                price:99,
-                title:'Watch',
-                qty:1,
-                img:'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MXMW2_VW_34FR+watch-44-alum-spacegray-nc-5s_VW_34FR_WF_CO?wid=750&hei=712&trim=1,0&fmt=p-jpg&qlt=80&op_usm=0.5,0.5&.v=1583262305957,1569365638987',
-                id:1
-              },
-              {
-                price:998,
-                title:'Mobile Phone',
-                qty:10,
-                img:'https://i.pcmag.com/imagery/reviews/04R1s9xuQfmVH4MHFeuaghc-18..v_1570065414.jpg',
-                id:2
-              },
-              {
-                price:34998,
-                title:'Laptop',
-                qty:4,
-                img:'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQHoc4r2phjXIuGUiqxkgp-crzvv6-e1gKbPj-2angXle45gng9YNPPwhhlDISfisQATq4x-fiz&usqp=CAc',
-                id:'3'
-              }
+        products:[],
+        loading:true
+      }
+     }
 
+     componentDidMount (){
+       firebase
+         .firestore()
+         .collection('products')
+         .get() 
+         .then((snapshot)=>{
+           console.log(snapshot);
 
-        ]
+           snapshot.docs.map((doc)=>{
+             console.log(doc.data())
+           });
 
+           const products=snapshot.docs.map((doc)=>{
+             const data=doc.data();
 
-       
-        
-    }
-    //  this.testing();
-    //  this.increaseQuantity=this.increaseQuantity.bind(this);
-   }
+             data['id']=doc.id;
+
+             
+
+            return data;
+           })
+
+           this.setState({
+             products,
+             loading:false
+           })
+         })
+     }
 
    handleIncreaseQuantity=(product)=>{
     console.log('Hey please inc of qty of',product);
@@ -108,7 +108,7 @@ class  App extends React.Component {
     return cartTotal;
   }
    render(){
-     const {products}=this.state;
+     const {products,loading}=this.state;
      
   return (
     <div className="App">
@@ -119,7 +119,7 @@ class  App extends React.Component {
          onDecreaseQuantity={this. handleDecreaseQuantity}
          onDeleteProduct={this.handleDeleteProduct}
         />    
-
+      {loading && <h1>Loading ProductsApp.......</h1>}
      <div style={{padding:10,fontSize:20}}>TOTAL: {this.getCartTotal()}</div>
     </div>
    );
