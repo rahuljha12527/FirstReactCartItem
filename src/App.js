@@ -107,10 +107,25 @@ class  App extends React.Component {
       return;
     }
     
-    products[index].qty-=1;
-    this.setState({
-      products:products
-    })
+    // products[index].qty-=1;
+    // this.setState({
+    //   products:products
+    // })
+
+    const docRef=this.db.collection('products').doc(products[index].id);
+
+   docRef
+     .update({
+       qty:products[index].qty-1
+     })
+     .then(()=>{
+       console.log('Updates Successfully');
+
+     })
+     .catch((error)=>{
+       console.log('Error:',error);
+     })
+
   }
 
   handleDeleteProduct=(id)=>{ 
